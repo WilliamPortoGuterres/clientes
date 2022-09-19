@@ -21,13 +21,13 @@
 
 
         </form>
-        <button id="adicionarCliente" >Adicionar cliente</button>
-        
+        <button id="adicionarCliente">Adicionar cliente</button>
 
-            
-        
 
-        
+
+
+
+
         <div>
             <table id="tabela">
                 <thead>
@@ -91,6 +91,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal" id="modalSucesso" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -103,28 +104,29 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-                    
+
                 </div>
             </div>
         </div>
     </div>
+    
     <div class="modal" id="ModalErro" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Erro</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Não é possível utilizar um e-mail já cadastrado</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-       
-      </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Erro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Não é possível utilizar um e-mail já cadastrado</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 
 </body>

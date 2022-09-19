@@ -2,6 +2,7 @@ var listaClientes = {}
 listaClientes.data = []
 var indiceEditando = -1
 var emailEditando=''
+
 $(document).ready(function () {
 
     $("#btnEditar").click(function () {
@@ -14,17 +15,14 @@ $(document).ready(function () {
 
         editarCliente(clienteEditado)
         $("#modalUpdate").modal('hide')
-        $("#modalSucesso").modal('show')
+        
 
     })
+
     $('#adicionarCliente').click(function () {
 
 
-
-
         $("#modalUpdate").modal('show')
-
-
 
 
     })
@@ -41,8 +39,7 @@ $(document).ready(function () {
 
                 listaClientes = JSON.parse(data)
 
-                montaTabela();
-
+                montaTabela()
 
 
             },
@@ -84,23 +81,32 @@ $(document).ready(function () {
 
     function editarCliente(cliente) {
 
-        var resultado = listaClientes.data.filter(clienteAtual => emailEditando == clienteAtual.email)
+        var email = $("#email").val()
+
+        var resultado = listaClientes.data.filter(clienteAtual => clienteAtual.email === email)
+      console.log(emailEditando)
+      console.log(email)
+      console.log(resultado.length)
+      console.log(listaClientes)
+
       
 
-            if(resultado.length == 1){
+            if((resultado.length == 1 && email==emailEditando)||(resultado.length ==0)){
 
                 listaClientes.data[indiceEditando] = cliente
+                
+                $("#modalSucesso").modal('show')
 
-            
             }else{
-
+                
                 $('#ModalErro').modal('show')
-            
-            
+                        
             }
+
         emailEditando=''
 
         indiceEditando = -1
+
         limpaCampos();
         montaTabela();
 
@@ -114,6 +120,7 @@ $(document).ready(function () {
         montaTabela();
 
     }
+
     function montaTabela() {
 
         var conteudoTabela = $('#conteudo')
@@ -162,11 +169,7 @@ $(document).ready(function () {
 
             })
 
-
         })
-
-
-
 
     }
 })
