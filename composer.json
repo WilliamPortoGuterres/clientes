@@ -1,0 +1,15 @@
+{
+    "name": "willi/clientes",
+    "autoload": {
+        "psr-4": {
+            "Willi\\Clientes\\": "src/"
+        
+        }
+        
+    },
+    "require": {
+       
+        
+        "klein/klein": "^2.1"
+    }
+}
