@@ -11,22 +11,11 @@
 </head>
 
 <body>
-    <div>
+    <div class="container">
+        <h1 class="m-2 ">Desenvolvido para demonstração de conhecimento</h1>
 
-        <label for="">Selecione o arquivo</label>
-        <form action="/CarregaArquivo" id="formulario" enctype="multipart/form-data" method="post">
-            <input type="file" name="arquivo">
-
-            <input type="submit" value="enviar">
-
-
-        </form>
-        <button id="adicionarCliente">Adicionar cliente</button>
-
-
-
-
-
+        <button id="adicionarCliente" class="btn btn-secondary">Adicionar cliente</button>
+       
 
         <div>
             <table id="tabela">
@@ -34,12 +23,9 @@
                     <th>Nome </th>
                     <th>E-mail </th>
                     <th>Telefone </th>
-                    <th>controle </th>
-                    <th>controle </th>
+                    
                 </thead>
                 <tbody id="conteudo">
-
-
 
                 </tbody>
 
@@ -81,22 +67,56 @@
                     </div>
 
 
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="btnEditar" class="btn btn-primary">Save changes</button>
+                    <button type="button" id="btnSalvar" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="modalSucesso" tabindex="-1">
+    <div class="modal" id="modalExcluir" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Sucesso</h5>
+                    <h5 class="modal-title">Excluir</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Excluido com sucesso!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalAdd" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Adicionado com sucesso!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalEditar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -109,13 +129,13 @@
             </div>
         </div>
     </div>
-    
+
     <div class="modal" id="ModalErro" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Erro</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Não é possível utilizar um e-mail já cadastrado</p>

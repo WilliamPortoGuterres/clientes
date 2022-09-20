@@ -5,59 +5,46 @@ var emailEditando=''
 
 $(document).ready(function () {
 
-    $("#btnEditar").click(function () {
-
-        var nome = $("#nome").val()
-        var email = $("#email").val()
-        var telefone = $("#telefone").val()
-
-        var clienteEditado = { nome, email, telefone }
-
-        editarCliente(clienteEditado)
-        $("#modalUpdate").modal('hide')
+    $.ajax({
+        url: '/CarregaArquivo',
+        type: 'POST',
         
+        success: function (data) {
 
-    })
+            listaClientes = JSON.parse(data)
+
+            montaTabela()
+
+
+        },
+        cache: false,
+        contentType: false,
+        processData: false,
+        xhr: function () { // Custom XMLHttpRequest
+            var myXhr = $.ajaxSettings.xhr();
+            if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
+                myXhr.upload.addEventListener('progress', function () {
+                    /* faz alguma coisa durante o progresso do upload */                  
+                }, false);
+            }
+            return myXhr;
+        }
+    });
+
+    
 
     $('#adicionarCliente').click(function () {
 
-
+        setaBotaoAdicionar()
         $("#modalUpdate").modal('show')
 
 
     })
 
-    $("#formulario").submit(function (e) {
-        e.preventDefault();
-        var formData = new FormData(this);
+   
 
-        $.ajax({
-            url: '/CarregaArquivo',
-            type: 'POST',
-            data: formData,
-            success: function (data) {
-
-                listaClientes = JSON.parse(data)
-
-                montaTabela()
-
-
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
-            xhr: function () { // Custom XMLHttpRequest
-                var myXhr = $.ajaxSettings.xhr();
-                if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
-                    myXhr.upload.addEventListener('progress', function () {
-                        /* faz alguma coisa durante o progresso do upload */
-                        console.log("progrediu");
-                    }, false);
-                }
-                return myXhr;
-            }
-        });
-    });
+        
+    
 
     function limpaCampos() {
 
@@ -67,6 +54,7 @@ $(document).ready(function () {
 
     }
 
+    
 
     function abreCliente(cliente) {
 
@@ -79,26 +67,79 @@ $(document).ready(function () {
 
     }
 
+    function addCliente(cliente){
+
+        var resultado = listaClientes.data.filter(clienteAtual => clienteAtual.email === cliente.email)
+
+        if(resultado.length ==0){
+
+            listaClientes.data.push(cliente) 
+                
+           salvarClienteServidor('add')
+        
+        }else{
+
+            $('#ModalErro').modal('show')
+
+
+        }
+
+        limpaCampos();
+       
+
+
+    }
+
+    function setaBotaoAdicionar(){
+
+        $('#btnSalvar').off()
+        $("#btnSalvar").click(function () {
+
+            var nome = $("#nome").val()
+            var email = $("#email").val()
+            var telefone = $("#telefone").val()
+    
+            var clienteEditado = { nome, email, telefone }
+    
+            addCliente(clienteEditado)
+            
+            $("#modalUpdate").modal('hide')
+            
+        })
+
+    }
+
+    function setaBotaoEditar(){
+        $('#btnSalvar').off()
+        $("#btnSalvar").click(function () {
+
+            var nome = $("#nome").val()
+            var email = $("#email").val()
+            var telefone = $("#telefone").val()
+    
+            var clienteEditado = { nome, email, telefone }
+    
+            editarCliente(clienteEditado)
+            
+            $("#modalUpdate").modal('hide')
+            
+        })
+    }
+
     function editarCliente(cliente) {
 
-        var email = $("#email").val()
 
-        var resultado = listaClientes.data.filter(clienteAtual => clienteAtual.email === email)
-      console.log(emailEditando)
-      console.log(email)
-      console.log(resultado.length)
-      console.log(listaClientes)
+        var resultado = listaClientes.data.filter(clienteAtual => clienteAtual.email === cliente.email)
 
-      
-
-            if((resultado.length == 1 && email==emailEditando)||(resultado.length ==0)){
+            if((resultado.length == 1 && cliente.email==emailEditando)||(resultado.length ==0)){
 
                 listaClientes.data[indiceEditando] = cliente
                 
-                $("#modalSucesso").modal('show')
+                salvarClienteServidor('editar')
 
+              
             }else{
-                
+
                 $('#ModalErro').modal('show')
                         
             }
@@ -117,7 +158,55 @@ $(document).ready(function () {
 
         listaClientes.data.splice(clienteIndice, 1)
 
-        montaTabela();
+        salvarClienteServidor('excluir')
+
+        
+
+    }
+
+    function salvarClienteServidor(acao){
+
+        $.ajax({
+            url: '/Registrar',
+            data: JSON.stringify( listaClientes),
+            type: 'POST',
+            
+            success: function (data) {
+   switch(acao){
+
+    case 'add':
+        $('#modalAdd').modal('show')
+        break
+    case 'editar':
+        $('#modalEditar').modal('show')
+        break
+    case 'excluir':
+        $('#modalExcluir').modal('show')
+        break
+   }
+
+                listaClientes = data
+    
+                $("#modalSucesso").modal('show')
+                montaTabela()
+    
+    
+            },
+            error:function(e){ $('#ModalErro').modal('show')},
+            cache: false,
+            contentType: false,
+            processData: false,
+            xhr: function () { // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
+                    myXhr.upload.addEventListener('progress', function () {
+                        /* faz alguma coisa durante o progresso do upload */                  
+                    }, false);
+                }
+                return myXhr;
+            }
+        });
+
 
     }
 
@@ -133,8 +222,8 @@ $(document).ready(function () {
             stringTBody += '<TD>' + cliente.nome + '</TD>'
             stringTBody += '<TD>' + cliente.email + '</TD>'
             stringTBody += '<TD>' + cliente.telefone + '</TD>'
-            stringTBody += "<TD><button class='editar'>ATUALIZAR</button></TD>"
-            stringTBody += "<TD><button class='deletar'>DELETAR</button></TD>"
+            stringTBody += "<TD><button class='editar btn btn-secondary'>ATUALIZAR</button></TD>"
+            stringTBody += "<TD><button class='deletar btn btn-secondary'>DELETAR</button></TD>"
             stringTBody += '</TR>'
             conteudoTabela.append(stringTBody)
 
@@ -143,8 +232,9 @@ $(document).ready(function () {
 
         $('.editar').each(function (index, e) {
 
-
             $(this).click(function () {
+
+                setaBotaoEditar()
 
                 indiceEditando = index
                 emailEditando =listaClientes.data[index]['email']

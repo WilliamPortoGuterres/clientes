@@ -12,10 +12,21 @@ class ClienteController
         $temp = $request->files();
 
 
-        $json = file_get_contents($temp['arquivo']['tmp_name']);
+        $json = file_get_contents('clientes.json');
 
 
         return $json;
         
+    }
+
+
+    public function registrar($request, $response, $service, $app)
+    {
+        
+       file_put_contents('clientes.json', $request->body());
+    
+        
+        $response->file('clientes.json');
+
     }
 }

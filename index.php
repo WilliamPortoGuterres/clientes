@@ -11,13 +11,13 @@ $klein->respond('GET', '/', function ($request, $response, $service, $app) {
     $service->render('src/View/teste.php');
 });
 
-$klein->respond('POST', '/teste', function ($request, $response, $service, $app) {
-
-    var_dump($request->files());
-});
 
 
 $klein->respond('POST', '/CarregaArquivo', [new ClienteController(),'carregaArquivo']   );
+
+
+$klein->respond('POST', '/Registrar', [new ClienteController(),'registrar']   );
+
 
 
 $klein->dispatch();
